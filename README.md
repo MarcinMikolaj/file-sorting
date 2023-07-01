@@ -5,8 +5,13 @@
 Postamn collection to test api📦 
 [file-sorting-postamn-collection.zip](https://github.com/MarcinMikolaj/file-sorting/files/11926761/file-sorting-postamn-collection.zip)
 
+
 ![image](https://github.com/MarcinMikolaj/file-sorting/assets/67873349/a95f61c3-2913-4dce-b1e3-bc030fe9f8ab)
+
+ ##### If we deliver file with wrong format:  ##### 
  
+ ![image](https://github.com/MarcinMikolaj/file-sorting/assets/67873349/500a7712-e9b8-4e61-8836-4efe2af35dfa)
+
 
 #### Cloning sources
 
