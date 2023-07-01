@@ -22,18 +22,15 @@ public class FileUtils {
         return savedFile;
     }
 
-    public static void saveFile(File file, String path){
-        try (InputStream inputStream = new FileInputStream(file);
-             OutputStream outputStream = new FileOutputStream(path)) {
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0)
-                outputStream.write(buffer, 0, length);
-
-            System.out.println("File saved");
-        } catch (IOException e) {
-            System.out.println("Exception: " + e.getMessage());
-        }
+    public static File saveFile(File file, String path) throws IOException {
+        InputStream inputStream = new FileInputStream(file);
+        OutputStream outputStream = new FileOutputStream(path);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0)
+            outputStream.write(buffer, 0, length);
+        inputStream.close();
+        return file;
     }
 
     public static String getFileExtension(String filename){

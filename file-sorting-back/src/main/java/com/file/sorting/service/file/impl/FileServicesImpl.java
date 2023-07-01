@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class FileServicesImpl implements FileService {
 
     @Override
     public File saveFileToHome(MultipartFile file) throws IOException {
-        return FileUtils.saveMultipartFile(file, Directory.HOME + "/" + file.getOriginalFilename());
+        return FileUtils.saveMultipartFile(file, MessageFormat.format("{0}/{1}", Directory.HOME, file.getOriginalFilename()));
     }
 
 }

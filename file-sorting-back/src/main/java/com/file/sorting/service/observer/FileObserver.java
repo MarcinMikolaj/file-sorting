@@ -36,22 +36,21 @@ public final class FileObserver {
         }
     }
 
-    private void processFile(File file, Path filePath) throws IllegalFileExtensionException, IOException {
+    private File processFile(File file, Path filePath) throws IllegalFileExtensionException, IOException {
         String extension = FileUtils.getFileExtension(file.getName());
         if(extension.equals(Extension.JAR.toString().toLowerCase())){
-            if(FileUtils.getTime(filePath) % 2 != 0)
-                assignFile(file, MessageFormat.format("{0}/{1}", Directory.TEST, file.getName()));
-            else
-                assignFile(file, MessageFormat.format("{0}/{1}", Directory.DEV, file.getName()));
+            return FileUtils.getTime(filePath) % 2 != 0
+                    ? assignFile(file, MessageFormat.format("{0}/{1}", Directory.TEST, file.getName()))
+                    : assignFile(file, MessageFormat.format("{0}/{1}", Directory.DEV, file.getName()));
         } else if(extension.equals(Extension.XML.toString().toLowerCase()))
-            assignFile(file, MessageFormat.format("{0}/{1}", Directory.DEV, file.getName()));
+            return assignFile(file, MessageFormat.format("{0}/{1}", Directory.DEV, file.getName()));
          else
             throw new IllegalFileExtensionException("Illegal file extension: " + extension);
     }
 
-    private void assignFile(File file, String path) throws IOException {
-        FileUtils.saveFile(file, path);
+    private File assignFile(File file, String path) throws IOException {
         countFileTransfer(FileUtils.getFileFromPath(COUNT_FILE_TRANSFER_FILE));
+        return FileUtils.saveFile(file, path);
     }
 
     private void countFileTransfer(File file) throws IOException {
