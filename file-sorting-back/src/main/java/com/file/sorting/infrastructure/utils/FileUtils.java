@@ -11,9 +11,16 @@ import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 @Component
 public class FileUtils {
+
+    public static File saveMultipartFile(MultipartFile file, String path) throws IOException {
+        File savedFile = new File(path);
+        file.transferTo(savedFile.getAbsoluteFile());
+        return savedFile;
+    }
 
     public static void saveFile(File file, String path){
         try (InputStream inputStream = new FileInputStream(file);
@@ -33,12 +40,6 @@ public class FileUtils {
         return filename.substring(filename.lastIndexOf(".") + 1);
     }
 
-    public static String saveFileToFolder(MultipartFile file, String path) throws IOException {
-        File file1 = new File(path);
-        file.transferTo(file1.getAbsoluteFile());
-        return path;
-    }
-
     public static int getTime(Path path) throws IOException {
         BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
         FileTime creationTime = attributes.creationTime();
@@ -46,9 +47,33 @@ public class FileUtils {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
         return localDateTime.getHour();
     }
-    public static void createDirectoryStructure() {
-        new File("HOME").mkdirs();
-        new File("DEV").mkdirs();
-        new File("TEST").mkdirs();
+
+    public static File createDirectory(String path){
+        return new File(path);
     }
+
+    public static String readFile(String filePath) throws IOException {
+        Path path = Path.of(filePath);
+        List<String> lines = Files.readAllLines(path);
+        StringBuffer buffer = new StringBuffer();
+        lines.forEach(s -> buffer.append(s).append("\n"));
+        return buffer.toString();
+    }
+
+    private static void writeToFile(File file, String value) throws IOException{
+        PrintWriter printWriter = new PrintWriter(file);
+        printWriter.write(value);
+        printWriter.close();
+    }
+
+    public static void overwriteFile(String filePath, String content) throws IOException {
+        FileWriter writer = new FileWriter(filePath);
+        writer.write(content);
+        writer.close();
+    }
+
+    public static File getFileFromPath(String filePath) {
+        return new File(filePath);
+    }
+
 }

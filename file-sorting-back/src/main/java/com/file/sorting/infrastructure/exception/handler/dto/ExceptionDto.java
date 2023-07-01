@@ -1,4 +1,4 @@
-package com.file.sorting.infrastructure.exception.dto;
+package com.file.sorting.infrastructure.exception.handler.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
