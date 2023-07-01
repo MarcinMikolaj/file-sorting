@@ -1,5 +1,6 @@
 package com.file.sorting.service.observer;
 
+import com.file.sorting.infrastructure.utils.FileUtils;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,10 +11,9 @@ import java.nio.file.*;
 @NoArgsConstructor
 public class FileObserver {
     private static final String HOME_DIR = "HOME";
-    private static final String DEV_DIR = "DEV";
-    private static final String TEST_DIR = "TEST";
 
     public void process() throws IOException, InterruptedException {
+        log.info("WatchService process start");
         Path homePath = Paths.get(HOME_DIR);
         WatchService watchService = FileSystems.getDefault().newWatchService();
         homePath.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
@@ -26,37 +26,23 @@ public class FileObserver {
                     Path filePath = homePath.resolve(filename);
                     File file = filePath.toFile();
 
-                    if(getFileExtension(file.getName()).equals("jar")){
-                        log.info("SAVE TO TEST FOLDER, jar extension");
-                        saveFile(file, "TEST/" + file.getName());
+                    if(FileUtils.getFileExtension(file.getName()).equals("jar")){
+                        if(FileUtils.getTime(filePath) % 2 != 0){
+                            log.info("SAVE TO TEST FOLDER, jar extension");
+                            FileUtils.saveFile(file, "TEST/" + file.getName());
+                        }else {
+                            log.info("SAVE TO TEST FOLDER, jar extension");
+                            FileUtils.saveFile(file, "DEV/" + file.getName());
+                        }
                     }
-                    if(getFileExtension(file.getName()).equals("xml")){
+                    if(FileUtils.getFileExtension(file.getName()).equals("xml")){
                         log.info("SAVE TO DEV FOLDER, xml extension");
-                        saveFile(file, "DEV/" + file.getName());
+                        FileUtils.saveFile(file, "DEV/" + file.getName());
                     }
-
                     log.info("Event kind:" + event.kind() + ". File affected: " + event.context() + ".");
                 }
             }
             key.reset();
-        }
-    }
-
-    private String getFileExtension(String filename){
-        return filename.substring(filename.lastIndexOf(".") + 1);
-    }
-
-    public void saveFile(File file, String path){
-        try (InputStream inputStream = new FileInputStream(file);
-             OutputStream outputStream = new FileOutputStream(path)) {
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0)
-                outputStream.write(buffer, 0, length);
-
-            System.out.println("File saved");
-        } catch (IOException e) {
-            System.out.println("Exception: " + e.getMessage());
         }
     }
 

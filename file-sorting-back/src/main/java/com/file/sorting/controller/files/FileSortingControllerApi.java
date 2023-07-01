@@ -1,4 +1,4 @@
-package com.file.sorting.controller;
+package com.file.sorting.controller.files;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
