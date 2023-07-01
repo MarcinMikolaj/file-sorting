@@ -10,7 +10,7 @@ Postamn collection to test api📦
 
 #### Cloning sources
 
-1. Open this URL [https://github.com/JaRutkowski/jfs-operations-cloud](https://github.com/MarcinMikolaj/file-sorting)
+1. Open this URL https://github.com/MarcinMikolaj/file-sorting)](https://github.com/MarcinMikolaj/file-sorting
 2. Now we must find the green rectangle where it writes  „<>CODE”
 3. We select HTTPS and there is a link below that you need to copy
 4. The next step is to open IntelliJ And choose File > New > Project from Version Control
